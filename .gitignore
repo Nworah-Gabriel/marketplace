@@ -1,0 +1,25 @@
+# Rust / Cargo
+target/
+Cargo.lock
+
+# Node.js
+node_modules/
+.next/
+out/
+
+# Environment files — NEVER commit secrets
+.env.local
+.env.*.local
+scripts/deploy/.env.deploy
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# WASM / build outputs
+*.wasm
+*.optimized.wasm
