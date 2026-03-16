@@ -50,7 +50,7 @@ fn test_create_listing_success() {
 }
 
 #[test]
-#[should_panic(expected = "InvalidPrice")]
+#[should_panic(expected = "Error(Contract, #2)")]
 fn test_create_listing_zero_price() {
     let (env, client, artist, _, _) = setup();
     let cid = bytes!(&env, 0x516d74657374);
@@ -58,7 +58,7 @@ fn test_create_listing_zero_price() {
 }
 
 #[test]
-#[should_panic(expected = "InvalidCid")]
+#[should_panic(expected = "Error(Contract, #1)")]
 fn test_create_listing_empty_cid() {
     let (env, client, artist, _, _) = setup();
     client.create_listing(
@@ -85,7 +85,7 @@ fn test_cancel_listing_success() {
 }
 
 #[test]
-#[should_panic(expected = "Unauthorized")]
+#[should_panic(expected = "Error(Contract, #5)")]
 fn test_cancel_listing_wrong_artist() {
     let (env, client, artist, buyer, _) = setup();
     let cid = bytes!(&env, 0x516d74657374);
@@ -114,30 +114,11 @@ fn test_get_artist_listings() {
 
 #[test]
 fn test_buy_artwork_success() {
-    use soroban_sdk::token::StellarAssetClient;
+    let (env, client, artist, buyer, _) = setup();
 
-    let env = Env::default();
-    env.mock_all_auths();
-
-    let token_admin_addr = Address::generate(&env);
-
-    // ✅ takes Address by value (not reference), returns StellarAssetContract
-    let token_contract = env.register_stellar_asset_contract_v2(token_admin_addr);
-
-    // ✅ extract the Address from the StellarAssetContract via .address()
-    let token_admin = StellarAssetClient::new(&env, &token_contract.address());
-
-    let contract_id = env.register(MarketplaceContract, ());
-    let client      = MarketplaceContractClient::new(&env, &contract_id);
-
-    let artist = Address::generate(&env);
-    let buyer  = Address::generate(&env);
-
-    token_admin.mint(&buyer, &100_000_000_i128);
-
-    let cid   = bytes!(&env, 0x516d74657374);
+    let cid = bytes!(&env, 0x516d74657374);
     let price = 10_000_000_i128;
-    let id    = client.create_listing(&artist, &cid, &price, &symbol_short!("XLM"));
+    let id = client.create_listing(&artist, &cid, &price, &symbol_short!("XLM"));
 
     let result = client.buy_artwork(&buyer, &id);
     assert!(result);
@@ -151,7 +132,7 @@ fn test_buy_artwork_success() {
 // ── get_listing not found ────────────────────────────────────
 
 #[test]
-#[should_panic(expected = "ListingNotFound")]
+#[should_panic(expected = "Error(Contract, #3)")]
 fn test_get_listing_not_found() {
     let (_env, client, _, _, _) = setup();
     client.get_listing(&999);
