@@ -13,6 +13,31 @@ Next.js 14 frontend for the Afristore decentralized African art marketplace.
 | IPFS | Pinata REST API (`axios`) |
 | Icons | `lucide-react` |
 
+## Design Guidelines
+
+For open-source contributors or UI designers, please adhere to the following design system when implementing new features or components:
+
+**Color Palette:**
+- Primary Brand Color: `#E27D60` (Vibrant Terracotta)
+- Secondary Brand Color: `#85DCBA` (Soft Mint Green)
+- Background Color (Light): `#F8F9FA` (Off-white)
+- Background Color (Dark): `#1E1E24` (Deep Charcoal)
+- Text Primary (Light Mode): `#212529` (Nearly Black)
+- Text Secondary (Light Mode): `#6C757D` (Muted Gray)
+- Accent Error: `#E63946` (Vivid Red)
+- Accent Success: `#2A9D8F` (Teal)
+
+**Typography (Google Fonts):**
+- Headings (H1-H6): `Playfair Display` (Bold, semi-bold - reflects an artistic, gallery-like feel)
+- Body Text: `Inter` (Regular, Medium - ensures readability for long descriptions and numbers)
+- Monospace (Wallet Addresses, code): `Fira Code` or `JetBrains Mono`
+
+**Visual Guide**
+[link to docs here](https://docs.google.com/document/d/1ABou8688S3lLqG9ZXAW9i5z8h9p2QVZdtIeEpRB4Y-M/edit?usp=sharing)
+
+
+*Note: The frontend avoids Figma for the time being. Follow these styles by utilizing Tailwind utility classes properly mapped in `tailwind.config.ts`.*
+
 ## Project Structure
 
 ```
