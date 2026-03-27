@@ -126,12 +126,8 @@ impl NormalNFT1155 {
         if token_ids.len() != amounts.len() || token_ids.len() != uris.len() {
             return Err(Error::LengthMismatch);
         }
-        for ((id, amount), uri) in token_ids
-            .iter()
-            .zip(amounts.iter())
-            .zip(uris.iter())
-        {
-            Self::_mint(&env, &to, id.unwrap(), amount.unwrap(), &uri.unwrap());
+        for ((id, amount), uri) in token_ids.iter().zip(amounts.iter()).zip(uris.iter()) {
+            Self::_mint(&env, &to, id, amount, &uri);
         }
         Ok(())
     }
@@ -188,7 +184,7 @@ impl NormalNFT1155 {
             return Err(Error::LengthMismatch);
         }
         for (id, amount) in token_ids.iter().zip(amounts.iter()) {
-            Self::_transfer(&env, &from, &to, id.unwrap(), amount.unwrap())?;
+            Self::_transfer(&env, &from, &to, id, amount)?;
         }
         Ok(())
     }
@@ -280,7 +276,7 @@ impl NormalNFT1155 {
             let bal: u128 = env
                 .storage()
                 .persistent()
-                .get(&DataKey::Balance(account.unwrap(), token_id.unwrap()))
+                .get(&DataKey::Balance(account, token_id))
                 .unwrap_or(0);
             result.push_back(bal);
         }

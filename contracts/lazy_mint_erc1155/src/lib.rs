@@ -277,7 +277,7 @@ impl LazyMint1155 {
             return Err(Error::LengthMismatch);
         }
         for (id, amount) in token_ids.iter().zip(amounts.iter()) {
-            Self::_transfer(&env, &from, &to, id.unwrap(), amount.unwrap())?;
+            Self::_transfer(&env, &from, &to, id, amount)?;
         }
         Ok(())
     }
@@ -365,7 +365,7 @@ impl LazyMint1155 {
             let b: u128 = env
                 .storage()
                 .persistent()
-                .get(&DataKey::Balance(account.unwrap(), token_id.unwrap()))
+                .get(&DataKey::Balance(account, token_id))
                 .unwrap_or(0);
             out.push_back(b);
         }
