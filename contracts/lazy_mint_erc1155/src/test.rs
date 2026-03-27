@@ -1,10 +1,8 @@
 #![cfg(test)]
+#![allow(unused_variables, unused_imports)]
 
-use crate::{LazyMint1155, LazyMint1155Client, MintVoucher1155, Error};
-use soroban_sdk::{
-    testutils::{Address as _, Ledger},
-    Address, BytesN, Env, String,
-};
+use crate::{Error, LazyMint1155, LazyMint1155Client, MintVoucher1155};
+use soroban_sdk::{testutils::Address as _, Address, BytesN, Env, String};
 
 fn setup_env() -> (Env, LazyMint1155Client<'static>, Address, BytesN<32>) {
     let env = Env::default();
@@ -42,7 +40,7 @@ fn test_register_edition_success() {
 
 #[test]
 fn test_register_edition_only_creator_fails_without_auth() {
-    let (env, client, _creator, _) = setup_env();
+    let (env, client, creator, _) = setup_env();
     let token_id = 1u64;
 
     // Call without mock_all_auths should fail because creator auth is required
@@ -90,7 +88,7 @@ fn test_redeem_enforces_max_supply() {
         valid_until: 0,
     };
     let _signature = BytesN::from_array(&env, &[0u8; 64]);
-    
+
     // We expect this to fail with MaxSupplyReached if we were to proceed past sig check.
 }
 
